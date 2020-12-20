@@ -304,6 +304,9 @@ The above returns the string
 ```Applid[0]:F Servid[0]:01 LTaddrBlk1[0]:FFFFGRA0AXXX Sesno[0]:0000 Osn[0]:000000 Inoutind[0]:I Msgtype[0]:103 LTaddrBlk2[0]:UUUUGRA0AXXX Msgprior[0]:N 113[0]:ABCD 20[0]:494930/DEV 32A[0]:020527EUR1958,47 21[0]:2222222 50[0]:BIODATA GJBH 50[1]:ZURICH 59[0]:S.T JANSSEN 59[1]:LEDEBOERSTRAAT 29 59[2]:AMSTERDAM
 ```
 
+##### autoReply(final String confirmationId, final String statusCode, final String reasonCode, final String forwardTo, final String settlementCode, final String clearingSystem)
+Since release 20.2.0, and in the paid version only, you have the option to create an MT199, with acctepance/rejection/in process status codes, for an MT103, according to the Univeral Confirmations rule book. See the [gist here](https://gist.github.com/pc14-alexandrakis/4ec4ac8fbb8cffcbe9a7ea5605a4747d)
+
 #### Tag object
 This object is used to handle the message tags. Its properties are name and data. Name is a string containing the name of the tag (i.e. 52A). Data is a vector of strings containing the lines of tag information. It is accompanied by a number of utility methods to set and get the values or do other manipulation. Only the most important of these methods are described below. The rest are straight forward in usage and can be seen in the JavaDoc.
 
@@ -427,9 +430,16 @@ The above returns
 ```59[0]:S.T JANSSEN 59[1]:LEDEBOERSTRAAT 29 59[2]:AMSTERDAM```
 
 ##### Tag description
-**In the paid version**, you can now get each tag's description by using our Utilities class. So, if you have the tag object and you know the MT message it belongs to, you can use the following code 
-```Utilities.getTagDescription("MT_MESSAGE_NUMBER", TAG_OBJECT));``` 
-and it will return the description of the tag. `MT_MESSAGE_NUMBER` is the mt message e.g. 103, 202, 700 etc. We have created gist here
+**In the paid version**, you can now get each tag's description by using the `getDescription` method of the `Tag` object. So, if you have the tag object and you know the MT message it belongs to, you can use the following code
+```
+Tag tag20 = smObj.getTag("20");
+//Get specific tag from the SwiftMessage object
+System.out.println("Tag " + tag20.getName() + " " +
+" " + tag20.getValueAsString());
+System.out.println("Description: " +
+tag20.getDescription(smObj.getArgMsgtype()));
+```
+and it will return the description of the tag. `MT_MESSAGE_NUMBER` is the mt message e.g. 103, 202, 700 etc. We have created a [gist here](https://gist.github.com/pc14-alexandrakis/067c319e37deec5bb357d526a953ebf4)
 
 #### The use of Repetitive Sequences in SWIFT messages
 Repetitive Sequences are used in certain SWIFT messages to enable groups of tags to be repeated more than once. The component represent these repetitive sequences by means of the `RepSeq` object. This means that a message can contain a combination of simple Tags and Repetitive Sequences, each of which is defined as optional or mandatory.
@@ -473,3 +483,14 @@ It is a method within XMLWriter object, and is the only one used to build a gene
 The method first validates the file name for syntax errors, to ensure that the XML will have alphanumeric characters.
 Example
 Check [here](src/main/java/com/paymentcomponents/swift/mt/ConvertMT2XML.java) how to create XMLs from an MT
+
+
+### More features are included in the paid version like
+
+[MT199 according to Universal Coonfirmations rules ](https://gist.github.com/pc14-alexandrakis/4ec4ac8fbb8cffcbe9a7ea5605a4747d)
+
+[Tag Descriptions](https://gist.github.com/pc14-alexandrakis/067c319e37deec5bb357d526a953ebf4)
+
+[Validate Corporate messages]()
+
+
