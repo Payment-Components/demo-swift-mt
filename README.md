@@ -1,6 +1,6 @@
 # Swift MT Message Validator Demo
 
-The project is here to demonstrate how our [SDK](https://www.paymentcomponents.com/messaging-libraries/) for Swift MT Messages Validation works. For our demonstration we are going to use a demo library which can parse/validate/generate an MT101 message. 
+The project is here to demonstrate how our [SDK](https://www.paymentcomponents.com/messaging-libraries/) for Swift MT Messages Validation works. For our demonstration we are going to use the demo SDK which can parse/validate/generate an MT101 message. 
 
 It's a simple maven project, you can download it and run it, with Java 1.8 or above.
 
@@ -491,6 +491,6 @@ Check [here](src/main/java/com/paymentcomponents/swift/mt/ConvertMT2XML.java) ho
 
 [Tag Descriptions](https://gist.github.com/pc14-alexandrakis/067c319e37deec5bb357d526a953ebf4)
 
-[Validate Corporate messages]()
+[Trade Finance Messages](https://gist.github.com/Gizpc14/2d3bd08520823399a722290c7650bba2)
 
 
