@@ -487,7 +487,7 @@ Check [here](src/main/java/com/paymentcomponents/swift/mt/ConvertMT2XML.java) ho
 
 ### More features are included in the paid version like
 
-[MT199 according to Universal Coonfirmations rules ](https://gist.github.com/pc14-alexandrakis/4ec4ac8fbb8cffcbe9a7ea5605a4747d)
+[MT199 according to Universal Confirmations rules ](https://gist.github.com/pc14-alexandrakis/4ec4ac8fbb8cffcbe9a7ea5605a4747d)
 
 [Tag Descriptions](https://gist.github.com/pc14-alexandrakis/067c319e37deec5bb357d526a953ebf4)
 
