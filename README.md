@@ -12,16 +12,15 @@ Alternatively, you can import it as a Maven or Gradle dependency
 
 #### Maven
 Define repository in the repositories section
-```
+```xml
 <repository>
     <id>paymentcomponents</id>
     <url>https://nexus.paymentcomponents.com/repository/public</url>
 </repository>
-
 ```
 
 Import the SDK
-```
+```xml
 <dependency>
   <groupId>gr.datamation</groupId>
   <artifactId>smv</artifactId>
@@ -32,7 +31,7 @@ Import the SDK
 
 #### Gradle 
 Define repository in the repositories section
-```
+```groovy
 repositories {
     maven {
         url "https://nexus.paymentcomponents.com/repository/public"
@@ -41,14 +40,14 @@ repositories {
 ```
 
 Import the SDK
-```
+```groovy
 implementation 'gr.datamation:smv:20.2.0:demo@jar'
 ```
 In case you purchase the SDK you will be given a protected Maven repository with a user name and a password. You can configure your project to download the SDK from there.
 
 #### Other dependencies
 There is a dependency in jdom2 library which is used for XML generation. In case it's a maven projects the following dependency it will added to your project, otherwise you need to include the jar manually to the classpath
-```
+```xml
 <dependency>
     <groupId>org.jdom</groupId>
     <artifactId>jdom2</artifactId>
@@ -56,7 +55,7 @@ There is a dependency in jdom2 library which is used for XML generation. In case
 </dependency>
 ```
 
-In this project you can see code for all the basic manipulation of an MT message, like :
+In this project you can see code for all the basic manipulation of an MT message, like:
 - [Parse a valid MT](src/main/java/com/paymentcomponents/swift/mt/ParseValidMT01.java)
 - [Parse invalid MTs](src/main/java/com/paymentcomponents/swift/mt/ParseInvalidMT01.java) and get the syntax and network validations error
 - [Build an MT - Way 1](src/main/java/com/paymentcomponents/swift/mt/BuildMT101_1.java)
@@ -83,7 +82,7 @@ AMSTERDAMcrlf
 Observe there are carriage-return line-feeds (crlf) separating each line. So when using your own examples, make sure you use the appropriate crlf's.
 To parse it, do the following:
 
-```
+```java
 //Put your SWIFT message in a string
 String message = "{1:F01ABCDGRA0AXXX0057000289}{2:O1000919010321DDDDGRA0AXXX00570001710103210920N}{3:{113:ABCD}{111:111}{121:01911b73-1f15-4932-934a-609149301922}}{4:\n:20:494930/DEV\n:32A:020527EUR1958,47\n:50:BIODATA GJBH\nZURICH\n:59:S.T JANSSEN\nLEDEBOERSTRAAT 29\nAMSTERDAM\n}{5:{MAC:75D138E4}{CHK:DE1B0D71FA96}{TNG:}}{S:{SAC:}{COP}}";
 //Create the parser object as below
@@ -102,7 +101,7 @@ MT720 (with the MT721 sequence messages)
 The library will process tags 45B, 46B and 47B in the sequence messages and will assign the concatenated results inside the corresponding master message (i.e. MT700 or MT710 or MT720) in tags 45A, 46A and 47A respectively. Pagination (Field 27 in the resulting message) will be handled automatically. The messages passed as arguments should have correct pagination, but they do not necessarily need to be provided in the correct order as the library will sort them prior to proceeding further.
 
 Sample parsing multiple messages
-```
+```java
 SwiftMsgProcessor processor = new SwiftMsgProcessor();
 
 String messageContentMaster = //... mt700
@@ -117,7 +116,7 @@ SwiftMessage result = processor.ParseMsgStringsToObject(Arrays.asList(messageCon
 #### BuildMsgStringFromObject method
 Use this method to construct a SWIFT message before sending it to the SWIFT network. It takes as input a SwiftMessage object that has been constructed by the programmer (see next section) and performs all the necessary formatting to produce a message with valid syntax. In other words programmer just assigns the right values to the tags of the SwiftMessage object and calls the method to build the SWIFT string ready to be transmitted to the SWIFT network. To enforce or check semantic rules such as tag sequence required fields etc, the SwiftMessageValidator, another PaymentComponents component should be called. To build a valid Swift string so that it can be transmitted to the SWIFT network follow the steps below:
 
-```
+```java
 //Create the component as below
 SwiftMsgProcessor SMP = new SwiftMsgProcessor();
 
@@ -170,12 +169,12 @@ This is the heart of the component. It is the object that the parser populates w
 
 ##### clear()
 Clears all the fields of the "SwiftMessage". This includes all block vectors and message property fields.
-```
+```java
 smobj.clear();
 ```
 ##### displayMessage()
 Displays at the standard output a text representation of the SWIFT message filled Tags
-```
+```java
 smobj.displayMessage();
 The above will display as the output the following
 Applid : F
@@ -197,80 +196,111 @@ Msgprior: N
 59 : LEDEBOERSTRAAT
 59 : AMSTERDAM
 ```
+
 ##### getArgApplid()
 Returns "Application Identifier" of the SWIFT message.
-```
+```java
 smobj.getArgApplid();
 ```
 The above returns "F".
 
 ##### getArgLTaddrBlk1()
 Returns "LT address" of the SWIFT message (Basic Header Block (1))
-```smobj.getArgLTaddrBlk1();```
+```java
+smobj.getArgLTaddrBlk1();
+```
 The above returns "FFFFGRA0AXXX".
 
 ##### getArgMsgtype()
 Returns "Message Type" of the SWIFT message
-```smobj.getArgMsgtype();```
+```java
+smobj.getArgMsgtype();
+```
 The above returns "103".
 
 ##### getBlockx()
 Returns a vector with all the tags of block x of the message.
-```smobj.getBlock1();```
-The above returns
-```[Applid[0]:F, Servid[0]:01, LTaddrBlk1[0]:FFFFGRA0AXXX, Sesno[0]:0000, Osn[0]:000000]
+```java
+smobj.getBlock1();
 ```
+The above returns
+``` 
+[Applid[0]:F, Servid[0]:01, LTaddrBlk1[0]:FFFFGRA0AXXX, Sesno[0]:0000, Osn[0]:000000] 
+```
+
 ##### getMessageAsVector()
 Returns a vector containing all the tags of the message in their original sequence.
-```smobj.getMessageAsVector();```
-The above returns
-```[Applid[0]:F, Servid[0]:01, LTaddrBlk1[0]:FFFFGRA0AXXX, Sesno[0]:0000, Osn[0]:000000,Inoutind[0]:I , Msgtype[0]:103, LTaddrBlk2[0]:UUUUGRA0AXXX, Msgprior[0]:N, 3[0]:ABCD , 20[0]:494930/DEV, 32A[0]:020527EUR1958,47, 21[0]:2222222, 50[0]:BIODATA GJBH 50[1]:ZURICH, 59[0]:S.T JANSSEN 59[1]:LEDEBOERSTRAAT 29 59[2]:AMSTERDAM]
+```java
+smobj.getMessageAsVector();
 ```
+The above returns
+```
+[Applid[0]:F, Servid[0]:01, LTaddrBlk1[0]:FFFFGRA0AXXX, Sesno[0]:0000, Osn[0]:000000,Inoutind[0]:I , Msgtype[0]:103, LTaddrBlk2[0]:UUUUGRA0AXXX, Msgprior[0]:N, 3[0]:ABCD , 20[0]:494930/DEV, 32A[0]:020527EUR1958,47, 21[0]:2222222, 50[0]:BIODATA GJBH 50[1]:ZURICH, 59[0]:S.T JANSSEN 59[1]:LEDEBOERSTRAAT 29 59[2]:AMSTERDAM]
+```
+
 ##### getNumbertOfTagInstances(String name)
 Returns the number of instances for the specific Tag. If tag does not exist then it returns 0.
-```smobj.getNumbertOfTagInstances("20");```
+```java
+smobj.getNumbertOfTagInstances("20");
+```
 The above returns the integer 1.
 
 ##### getTag(String name)
-```smobj.getTag("20");```
+```java
+smobj.getTag("20");
+```
 The above returns a Tag object with all the information of tag 20 of the message.
 A tag may exist more than once. This method returns the first instance of the tag.
 
 ##### getTag(String tagName, int index)
 Returns the specified (if exists) instance of the tag with name tagName in the message (i.e. if tag20 exists three times in a message then getTag("20",1) returns the first occurrence of tag20 and getTag("20",3) returns the third. If tag does not exist or index is greater than the maximum number of tag representation then it returns null.
-```smobj.getTag("20",1);```
+```java
+smobj.getTag("20",1);
+```
 The above returns a Tag object having all the information of tag 20 of the message.
 
-###### isblockEmpty(int index)
+##### isblockEmpty(int index)
 Returns true when the specific block vector has no Tags.
-```isblockEmpty(4);```
+```java
+isblockEmpty(4);
+```
 The above returns false.
 
 ##### getUniqueEndToEndTrxRef()
 Returns the "Unique end-to-end transaction Reference or UETR (121) " of a SWIFT message
-```smobj.getUniqueEndToEndTrxRef();```
+```java
+smobj.getUniqueEndToEndTrxRef();
+```
 
 ##### getPaymentControlsInformation()
 Returns the "Payment Controls Info (434) " of a SWIFT message
-```smobj.getPaymentControlsInformation();```
+```java
+smobj.getPaymentControlsInformation();
+```
 
 ##### getServiceTypeIdentifier()
 Returns the "Service Type Identifier (111) " of a SWIFT message
-```smobj.getServiceTypeIdentifier();```
+```java
+smobj.getServiceTypeIdentifier();
+```
 
 ##### setArgLTaddrBlk1(String newArgLTaddrBlk1)
 Sets the text part for "LT address" of the SWIFT message (Basic Header Block (1))
-```smobj.setArgLTaddrBlk1("FFFFGRA0AXXX");```
+```java
+smobj.setArgLTaddrBlk1("FFFFGRA0AXXX");
+```
 The above sets FFFFGRA0AXXX to LTaddrBlk1 property.
 
 ##### setArgMsgtype(String newArgMsgtype)
 Sets the "Message Type" of a SWIFT message
-```smobj.setArgMsgtype("103");```
+```java
+smobj.setArgMsgtype("103");
+```
 The above sets 103 to MsgType property.
 
 ##### setBlockx(Vector newBlockx)
 Sets a vector containing all the tags of a specific block in their original sequence.
-```
+```java
 java.util.Vector tmpVec = new java.util.Vector();
 tmpVec.addElement("I");
 tmpVec.addElement("103");
@@ -283,25 +313,34 @@ The above sets tmpVec vector to block2 property.
 
 ##### setUniqueEndToEndTrxRef(String newUniqueEndToEndTrxRef)
 Sets the "Unique end-to-end transaction Reference or UETR (121) " of a SWIFT message
-```smobj.setUniqueEndToEndTrxRef("01911b73-1f15-4932-934a-609149301922");```
+```java
+smobj.setUniqueEndToEndTrxRef("01911b73-1f15-4932-934a-609149301922");
+```
 The above sets the UETR to the 121 field of MT103.
 
 ##### setServiceTypeIdentifier(String newServiceTypeIdentifier)
 Sets the "Service Type Identifier (111)" of a SWIFT message
-```smobj.setServiceTypeIdentifier("111");```
+```java
+smobj.setServiceTypeIdentifier("111");
+```
 The above sets the Service Type Identifier to the 111 field of Block 3.
 
 
 ##### setPaymentControlsInformation(String newPaymentControlsInformation)
 Sets the "Payment Controls Information (434) " of a SWIFT message
-```smobj.setPaymentControlsInformation("/AAA/someScreeningInfo");```
+```java
+smobj.setPaymentControlsInformation("/AAA/someScreeningInfo");
+```
 The above sets the Payment Controls Info to the 434 field of MT103.
 
 ##### toString()
 Returns the String representation of this SWIFT Message
-```smobj.toString();```
+```java
+smobj.toString();
+```
 The above returns the string
-```Applid[0]:F Servid[0]:01 LTaddrBlk1[0]:FFFFGRA0AXXX Sesno[0]:0000 Osn[0]:000000 Inoutind[0]:I Msgtype[0]:103 LTaddrBlk2[0]:UUUUGRA0AXXX Msgprior[0]:N 113[0]:ABCD 20[0]:494930/DEV 32A[0]:020527EUR1958,47 21[0]:2222222 50[0]:BIODATA GJBH 50[1]:ZURICH 59[0]:S.T JANSSEN 59[1]:LEDEBOERSTRAAT 29 59[2]:AMSTERDAM
+```java
+Applid[0]:F Servid[0]:01 LTaddrBlk1[0]:FFFFGRA0AXXX Sesno[0]:0000 Osn[0]:000000 Inoutind[0]:I Msgtype[0]:103 LTaddrBlk2[0]:UUUUGRA0AXXX Msgprior[0]:N 113[0]:ABCD 20[0]:494930/DEV 32A[0]:020527EUR1958,47 21[0]:2222222 50[0]:BIODATA GJBH 50[1]:ZURICH 59[0]:S.T JANSSEN 59[1]:LEDEBOERSTRAAT 29 59[2]:AMSTERDAM
 ```
 
 ##### autoReply(final String confirmationId, final String statusCode, final String reasonCode, final String forwardTo, final String settlementCode, final String clearingSystem)
@@ -312,7 +351,7 @@ This object is used to handle the message tags. Its properties are name and data
 
 ##### addDataLine(String line)
 Adds a string containing the information of a Tag line to Data vector.
-```
+```java
 tag59.addDataLine("S.T JANSSEN");
 tag59.addDataLine("LEDEBOERSTRAAT 29");
 tag59.addDataLine("AMSTERDAM");
@@ -320,10 +359,15 @@ tag59.addDataLine("AMSTERDAM");
 
 ##### clearAll()
 Clears the Tag properties name and data.
-```tag59.clearAll();```
-###### getData()
+```java
+tag59.clearAll();
+```
+
+##### getData()
 Returns a vector of strings containing the tag information. Each line of information is a vector element.
-```Vector tempVec = tag59.getData();```
+```java
+Vector tempVec = tag59.getData();
+```
 Now tempVec vector contains the value:
 ```[S.T JANSSEN, LEDEBOERSTRAAT 29, AMSTERDAM]```
 ##### getDataLineAt(int index)
@@ -342,7 +386,9 @@ The above will set "S.T JANSSEN" to data59l0 and "AMSTERDAM" to data59l2 variabl
 
 ##### getName()
 Returns a string containing the name of the tag.
-```tag59.getName();```
+```java
+tag59.getName();
+```
 The above will return "59".
 
 ##### getNumberOfDataLines()
@@ -352,7 +398,9 @@ Returns the number of lines that a tag has. Assuming that in the original tag lo
 LEDEBOERSTRAAT 29
 AMSTERDAM
 ```
-```tag59.getNumberOfDataLines();```
+```java
+tag59.getNumberOfDataLines();
+```
 The above returns the integer 3.
 
 ##### insertDataLineAt(String line, int index )
@@ -363,7 +411,9 @@ Throws InvalidActionAttemptedException when the index is invalid. Assuming that 
 LEDEBOERSTRAAT 29
 AMSTERDAM
 ```
-```tag59.InsertDataLineAt("HOLLAND",2);```
+```java
+tag59.InsertDataLineAt("HOLLAND",2);
+```
 Now tag 59 looks like the following
 ```
 :59:S.T JANSSEN
@@ -374,12 +424,14 @@ AMSTERDAM
 
 ##### isEmpty()
 Returns true when Tag infromation is empty.
-```tag59.isEmpty();```
+```java
+tag59.isEmpty();
+```
 
 ##### setData(Vector Data)
 Sets the Data property (Vector) value.
 
-```
+```java
 Vector tmpVec = new Vector();
 tmpVec.addElement("S.T JANSSEN");
 tmpVec.addElement("LEDEBOERSTRAAT 29");
@@ -397,7 +449,9 @@ Assuming that in the original tag looks like the following
 LEDEBOERSTRAAT 29
 AMSTERDAM
 ```
-```tag59.setDataLineAt("HOLLAND",1);```
+```java
+tag59.setDataLineAt("HOLLAND",1);
+```
 Now tag 59 looks like the following
 ```
 :59:S.T JANSSEN
@@ -407,14 +461,14 @@ AMSTERDAM
 
 ##### setName(String newName)
 Sets the Tags Name property (String) value.
-```
+```java
 Tag tag59 = new Tag();
 tag59.setName("59");
 ```
 
 ##### setTag(String name, Vector data)
 Sets Tags properties name and data.
-```
+```java
 Vector tmpVec = new Vector();
 tmpVec.addElement("S.T JANSSEN");
 tmpVec.addElement("LEDEBOERSTRAAT 29");
@@ -425,13 +479,17 @@ tag59.setTag("59",tmpVec);
 
 ##### toString()
 Returns the String representation of this Tag.
-```tag59.toString();```
+```java
+tag59.toString();
+```
 The above returns
-```59[0]:S.T JANSSEN 59[1]:LEDEBOERSTRAAT 29 59[2]:AMSTERDAM```
+```
+59[0]:S.T JANSSEN 59[1]:LEDEBOERSTRAAT 29 59[2]:AMSTERDAM
+```
 
 ##### Tag description
 **In the paid version**, you can now get each tag's description by using the `getDescription` method of the `Tag` object. So, if you have the tag object and you know the MT message it belongs to, you can use the following code
-```
+```java
 Tag tag20 = smObj.getTag("20");
 //Get specific tag from the SwiftMessage object
 System.out.println("Tag " + tag20.getName() + " " +
@@ -447,7 +505,9 @@ The RepSeq object includes simple Tag objects (i.e. tag 21 will be included in t
 Check [here](src/main/java/com/paymentcomponents/swift/mt/BuildMT101_1.java) how the Reppetitive Sequnece B, is being added to the Swift Message Object.
 ##### Note
 If we want to build a "Block" with a repetitive sequence named Rep1 (BlockRepSeq Rep1) which has another repetitive sequence named Rep2 inside it (BlockRepSeq Rep2), then: We create the second (inner) repetitive sequence (BlockRepSeq Rep2), we fill it with values, then we put it inside the first BlockRepSeq calling the addSubSequence method of the BlockRepSeq class, like this:
-```Rep1.addSubSequence(Rep2);```
+```java
+Rep1.addSubSequence(Rep2);
+```
 
 #### SwiftMsgValidator object
 SwiftMsgValidator has just one method encapsulating the entire functionality needed to validate and build a SWIFT MT message.
@@ -493,4 +553,124 @@ Check [here](src/main/java/com/paymentcomponents/swift/mt/ConvertMT2XML.java) ho
 
 [Trade Finance Messages](https://gist.github.com/Gizpc14/2d3bd08520823399a722290c7650bba2)
 
+### Error Codes Appendix
 
+|Code|Error Message|
+|---|---|
+|SV00|Swift Validator Error|
+|SV01|Field length exceeded|
+|SV02|Code word must be placed between slashes '/'|
+|SV03|Code word length exceeded|
+|SV04|Field not valid|
+|SV05|Amount must have a comma|
+|SV06|Amount must have only one comma|
+|SV07|Party Identifier format not valid|
+|SV08|Party Identifier must start with a slash '/'|
+|SV09|Does not contain a valid code word|
+|SV10|- Field must start with a double slash '//' or a '/'code word'/'.<br>- Field must start with a double slash '//'|
+|SV11|Maximum lines for this option are 2|
+|SV12|BIC is mandatory|
+|SV13|- At least one line must be present.<br>- Minimum lines for this option are: <available options>|
+|SV14|Maximum lines for this option are 5|
+|SV15|Option must be|
+|SV16|Mandatory Tag is missing|
+|SV17|Field must start with a '/'code word'/'|
+|SV18|Field must start with a double slash '//'|
+|SV19|Narrative text must not start with a slash|
+|SV20|Account line must start with a slash '/'|
+|SV21|Maximum lines for this option|
+|SV22|- Use a '/' to separate Message Index and Total fields.<br>- Use a '/' to separate Statement number and Sequence number|
+|SV23|- Message Index field must not be more than 5 digits.<br>- Statement number must not be more than 5 digits or less than 1 digit|
+|SV24|Total field length must be 4 digits|
+|SV25|- Message Index field must be numeric.<br>- Statement number must be numeric|
+|SV26|- Total field must be numeric. - Sequence number must be numeric.<br>- Number of days field is invalid or empty.<br>- Invalid function code word|
+|SV27|Use a '/' to separate Type and Market fields|
+|SV28|Use a '/' to separate Market and Data fields|
+|SV29|Repetitive sequence must not be present in message type|
+|SV30|At least one Repetitive sequence must be present|
+|SV31|Narrative text must start with a slash '/'|
+|SV32|Narrative text must be present|
+|SV33|Rate must have a comma|
+|SV34|Rate must have only one comma|
+|SV35|Rate must not start with a comma|
+|SV36|Field length must be : <permitted length>|
+|SV37|Both the account number and BEI line must be present|
+|SV38|The second character must be a slash '/'|
+|SV39|Invalid Session Number or ISN|
+|SV40|Message Type Number and Date fields must be present|
+|SV41|Country field is missing or invalid|
+|SV42|Account is mandatory|
+|SV43|Index field must not be more than 1 digit|
+|SV44|Partial Code Line must not be more than 33 digits|
+|SV45|Check the format option for field 50a (Instruction Party or Creditor)|
+|SV46|Tag 50a must not be present more than 2 times|
+|SV47|Second line must be present|
+|SV48|Tag 52 must not be present more than 2 times|
+|SV49|Check the format option for field 50a (Instruction Party or Ordering Customer)|
+|SV50|- Total field length must not be more than 5 digits.<br>- Sequence number must not be more than 5 digits or less than 1 digit.<br>- Sequence number must not be more than 2 digits or less than 1 digit|
+|SV51|Additional Information must start with a slash '/'|
+|SV52|BEI is mandatory|
+|SV53|Application Identifier is missing (Basic Header Block)|
+|SV54|Application Identifier is invalid (Basic Header Block)|
+|SV55|Service Identifier is missing (Basic Header Block)|
+|SV56|Service Identifier is invalid (Basic Header Block)|
+|SV57|LT Identifier is missing (Basic Header Block)|
+|SV58|LT Identifier is invalid (Basic Header Block)|
+|SV59|Session Number is invalid (Basic Header Block)|
+|SV60|Sequence Number is invalid (Basic Header Block)|
+|SV61|Input/Output Identifier must be 'I' or 'O' (Application Header Block)|
+|SV62|Message Type is missing (Application Header Block)|
+|SV63|Message Type is invalid (Application Header Block)|
+|SV64|Receiver Address is missing (Application Header Block)|
+|SV65|Receiver Address is invalid (Application Header Block)|
+|SV66|Message Priority is missing (Application Header Block)|
+|SV67|Message Priority is invalid (Application Header Block)|
+|SV68|Delivery Monitoring must be '1' or '3' (Application Header Block)|
+|SV69|Delivery Monitoring must be '2' or blank (Application Header Block)|
+|SV70|Delivery Monitoring must not be used (Application Header Block)|
+|SV71|Obsolescence period must not be used (Application Header Block)|
+|SV72|Obsolescence period must be '003' (Application Header Block)|
+|SV73|Obsolescence period must be '020' (Application Header Block)|
+|SV74|Obsolescence period is missing (Application Header Block).|
+|SV75|Swift Validator cannot handle this Type of Message|
+|SV76|Message Type is missing from the message|
+|SV77|At least one line of the subfield Name & Address is required|
+|SV78|Invalid format. Format is :|
+|SV78|Invalid format. Field must be empty|
+|SV79|Mandatory Subfield is missing or invalid|
+|SV79|Subfield is invalid|
+|SV80|Field length invalid|
+|SV81|Field must start with symbol ' : '|
+|SV82|Field after qualifier , must contain double slash '//'|
+|SV83|Use a '/' to separate Function and Subfunction fields|
+|SV84|Use a '/' to separate Qualifier , Data Source Scheme and Proprietary Code fields|
+|SV85|Use a '/' to separate Function and Name & Address fields|
+|SV86|Subfield must start with a slash '/'.|
+|SV87|Frequency/Timing in Period subfields are missing or invalid|
+|SV88|Use a '/' to separate Frequency and Timing in Period subfields|
+|SV89|Use a '/' to separate Timing in Period and Day subfields|
+|SV90|When subfield Day is present, it must consist of 2 numbers|
+|SV93|- Use a '/' to separate Qualifier , Data Source Scheme, Account Type Code and Account Number. <br>- Use a '/' to separate Code and Function|
+|SV94|Qualifier of Tag is Mandatory|
+|SV95|Invalid length of Qualifier|
+|SV96|Codes must start and end with a slash '/'.|
+|SV97|When an ISIN identifier is not used it is strongly recommended that one of the following codes be used at the first four characters of the description of security : The ISO two digit country code or /TS/ or /XX/.|
+|SV98|The decimal comma occurs more than one time(s)|
+|SV99|In field 72, if the code /INS/ is used at the beginning of a line, it must be followed by a valid financial institution BIC and be the only information on that line|
+|SV100|Missing Mandatory Sequence(s)|
+|SV101|Number of Days specifies the number of days notice (for example, 07). It must only be used when Function is NOTICE|
+|SV102|In field 72, when first line starts with one of the codes /RETN/ or /REJT/, the third line must start with the code /MREF/ and follow the format : 16x|
+|SV103|In field 72, when first line starts with one of the codes /RETN/ or /REJT/, code words must not be duplicated|
+|SV104|In field 72, when first line starts with one of the codes /RETN/ or /REJT/, code words on the lines 2-6 must be in proper sequence : reason code (format 2!c2!n), MREF, TREF (optional), CHGS (optional), TEXT (optional)|
+|SV105|In field 72, when first line starts with one of the codes /RETN/ or /REJT/, the information component following all code words, except for reason code (for example, /AC01/) is mandatory. This component must not be empty, nor consist entirely of blanks|
+|SV106|In field 72, information following the code /RETN/ or /REJT/ must consist of the field causing the reject or return, and possibly other message elements (for example, letter option and sequence identification), which may be helpful to the sender in isolating the specific error; format : 2!n[1!a][/2c].|
+|SV107|In field 72, when first line starts with one of the codes /RETN/ or /REJT/, each line must begin with the format : /'code word'/.|
+|SV108|One of the following codes must be used:|
+|SV109|Slash absent or in wrong position|
+|SV110|Left part not present|
+|SV111|Field must contain the following codes : <list of codes>|
+|SV112|<field name> must contain the following codes : <list of codes>|
+|SV113|Narrative text must not start with a slash and, if used, must begin on a new line and be the last information in the field|
+|SV115|At least one of the following codes should be used, placed between slashes \ /\ : <list of codes>|
+|SV116|For field <field name> in sequence <sequence name> the following values must not be repeated : <list of values>|
+|SV117|At least one of fields 95P, 95Q, 95R must be present in sequence <sequence name>|
