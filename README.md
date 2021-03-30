@@ -551,7 +551,7 @@ Check [here](src/main/java/com/paymentcomponents/swift/mt/ConvertMT2XML.java) ho
 
 [Tag Descriptions](https://gist.github.com/pc14-alexandrakis/067c319e37deec5bb357d526a953ebf4)
 
-[Trade Finance Message Build](https://gist.github.com/Gizpc14/2d3bd08520823399a722290c7650bba2)  
+[Trade Finance Message Build](https://gist.github.com/apolichronopoulos/5039d48fca54791f0952799357482a14)  
 
 [Trade Finance Message Parse](https://gist.github.com/apolichronopoulos/ab184196d3ae26d231b9bb031f1a9c5a)  
 
