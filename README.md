@@ -25,7 +25,7 @@ Import the SDK
 <dependency>
   <groupId>gr.datamation</groupId>
   <artifactId>smv</artifactId>
-  <version>20.2.0</version>
+  <version>21.5.1</version>
   <classifier>demo</classifier>
 </dependency>
 ```
@@ -42,7 +42,7 @@ repositories {
 
 Import the SDK
 ```groovy
-implementation 'gr.datamation:smv:20.2.0:demo@jar'
+implementation 'gr.datamation:smv:21.5.1:demo@jar'
 ```
 In case you purchase the SDK you will be given a protected Maven repository with a user name and a password. You can configure your project to download the SDK from there.
 
@@ -345,7 +345,7 @@ Applid[0]:F Servid[0]:01 LTaddrBlk1[0]:FFFFGRA0AXXX Sesno[0]:0000 Osn[0]:000000 
 ```
 
 ##### autoReply(final String confirmationId, final String statusCode, final String reasonCode, final String forwardTo, final String settlementCode, final String clearingSystem)
-Since release 20.2.0, and in the paid version only, you have the option to create an MT199, with acctepance/rejection/in process status codes, for an MT103, according to the Univeral Confirmations rule book. See the [gist here](https://gist.github.com/pc14-alexandrakis/4ec4ac8fbb8cffcbe9a7ea5605a4747d)
+Since release 21.5.1, and in the paid version only, you have the option to create an MT199, with acctepance/rejection/in process status codes, for an MT103, according to the Univeral Confirmations rule book. See the [gist here](https://gist.github.com/pc14-alexandrakis/4ec4ac8fbb8cffcbe9a7ea5605a4747d)
 
 #### Tag object
 This object is used to handle the message tags. Its properties are name and data. Name is a string containing the name of the tag (i.e. 52A). Data is a vector of strings containing the lines of tag information. It is accompanied by a number of utility methods to set and get the values or do other manipulation. Only the most important of these methods are described below. The rest are straight forward in usage and can be seen in the JavaDoc.
