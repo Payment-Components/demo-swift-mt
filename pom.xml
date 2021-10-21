@@ -19,7 +19,7 @@
         <dependency>
             <groupId>gr.datamation</groupId>
             <artifactId>smv</artifactId>
-            <version>21.5.1</version>
+            <version>21.22.0</version>
             <classifier>demo</classifier>
         </dependency>
     </dependencies>
