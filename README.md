@@ -545,6 +545,31 @@ The method first validates the file name for syntax errors, to ensure that the X
 Example
 Check [here](src/main/java/com/paymentcomponents/swift/mt/ConvertMT2XML.java) how to create XMLs from an MT
 
+##### Tag61.splitTag()
+Since Tag61 includes many pieces of information, library offers a parsing of the Tag's fields. You get a map with fields name and field value.  
+The below code
+```java
+        SwiftMessage message = new Msg940();
+
+        message.getBlock4().clear();
+        message.getBlock4().addAll(createTagList(
+                ":61:1501080109D184,50NCHKNONREF ////D101 100771017\nCHQ WITHDR-DISSE"
+        ));
+        for (Object object : message.getBlock4()) {
+            if (object instanceof Tag) {
+                Tag tag = (Tag) object;
+                if (tag.getName().equals("61")) {
+                    System.out.println(Tag61.splitTag(tag.getValueAsString()));
+                }
+
+            }
+        }
+```
+results to 
+```
+{dcMark=D, accOwnerRef=NONREF //, amount=184,50, entryDate=0109, idCode=CHK, accServRef=D101 100771017, valueDate=150108, supDetails=CHQ WITHDR-DISSE, fundsCode=null, tranType=N}
+```
+
 
 ### More features are included in the paid version like
 
