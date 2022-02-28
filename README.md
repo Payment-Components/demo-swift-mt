@@ -25,7 +25,7 @@ Import the SDK
 <dependency>
   <groupId>gr.datamation</groupId>
   <artifactId>smv</artifactId>
-  <version>21.22.0</version>
+  <version>21.28.0</version>
   <classifier>demo</classifier>
 </dependency>
 ```
@@ -42,7 +42,7 @@ repositories {
 
 Import the SDK
 ```groovy
-implementation 'gr.datamation:smv:21.22.0:demo@jar'
+implementation 'gr.datamation:smv:21.28.0:demo@jar'
 ```
 In case you purchase the SDK you will be given a protected Maven repository with a user name and a password. You can configure your project to download the SDK from there.
 
@@ -57,11 +57,11 @@ There is a dependency in jdom2 library which is used for XML generation. In case
 ```
 
 In this project you can see code for all the basic manipulation of an MT message, like:
-- [Parse a valid MT](src/main/java/com/paymentcomponents/swift/mt/ParseValidMT01.java)
-- [Parse invalid MTs](src/main/java/com/paymentcomponents/swift/mt/ParseInvalidMT01.java) and get the syntax and network validations error
-- [Build an MT - Way 1](src/main/java/com/paymentcomponents/swift/mt/BuildMT101_1.java)
-- [Build an MT - Way 2](src/main/java/com/paymentcomponents/swift/mt/BuildMT101_2.java)
-- [Convert an MT from text to xml](src/main/java/com/paymentcomponents/swift/mt/ConvertMT2XML.java)
+- [Parse a valid MT](src/main/java/com/paymentcomponents/mt/demo/demo/ParseValidMT01.java)
+- [Parse invalid MTs](src/main/java/com/paymentcomponents/mt/demo/demo/ParseInvalidMT01.java) and get the syntax and network validations error
+- [Build an MT - Way 1](src/main/java/com/paymentcomponents/mt/demo/demo/BuildMT101_1.java)
+- [Build an MT - Way 2](src/main/java/com/paymentcomponents/mt/demo/demo/BuildMT101_2.java)
+- [Convert an MT from text to xml](src/main/java/com/paymentcomponents/mt/demo/demo/ConvertMT2XML.java)
 
 
 
@@ -345,7 +345,7 @@ Applid[0]:F Servid[0]:01 LTaddrBlk1[0]:FFFFGRA0AXXX Sesno[0]:0000 Osn[0]:000000 
 ```
 
 ##### autoReply(final String confirmationId, final String statusCode, final String reasonCode, final String forwardTo, final String settlementCode, final String clearingSystem)
-Since release 21.22.0, and in the paid version only, you have the option to create an MT199, with acctepance/rejection/in process status codes, for an MT103, according to the Univeral Confirmations rule book. See the [gist here](https://gist.github.com/pc14-alexandrakis/4ec4ac8fbb8cffcbe9a7ea5605a4747d)
+Since release 21.28.0, and in the paid version only, you have the option to create an MT199, with acctepance/rejection/in process status codes, for an MT103, according to the Univeral Confirmations rule book. See the [gist here](https://gist.github.com/pc14-alexandrakis/4ec4ac8fbb8cffcbe9a7ea5605a4747d)
 
 #### Tag object
 This object is used to handle the message tags. Its properties are name and data. Name is a string containing the name of the tag (i.e. 52A). Data is a vector of strings containing the lines of tag information. It is accompanied by a number of utility methods to set and get the values or do other manipulation. Only the most important of these methods are described below. The rest are straight forward in usage and can be seen in the JavaDoc.
@@ -503,7 +503,7 @@ and it will return the description of the tag. `MT_MESSAGE_NUMBER` is the mt mes
 #### The use of Repetitive Sequences in SWIFT messages
 Repetitive Sequences are used in certain SWIFT messages to enable groups of tags to be repeated more than once. The component represent these repetitive sequences by means of the `RepSeq` object. This means that a message can contain a combination of simple Tags and Repetitive Sequences, each of which is defined as optional or mandatory.
 The RepSeq object includes simple Tag objects (i.e. tag 21 will be included in this RepSeq object as a simple Tag object), or even other (nested) RepSeq objects since there are SWIFT messages that are more complicated and include repetitive sequences inside repetitive sequences.
-Check [here](src/main/java/com/paymentcomponents/swift/mt/BuildMT101_1.java) how the Reppetitive Sequnece B, is being added to the Swift Message Object.
+Check [here](src/main/java/com/paymentcomponents/mt/demo/demo/BuildMT101_1.java) how the Reppetitive Sequnece B, is being added to the Swift Message Object.
 ##### Note
 If we want to build a "Block" with a repetitive sequence named Rep1 (BlockRepSeq Rep1) which has another repetitive sequence named Rep2 inside it (BlockRepSeq Rep2), then: We create the second (inner) repetitive sequence (BlockRepSeq Rep2), we fill it with values, then we put it inside the first BlockRepSeq calling the addSubSequence method of the BlockRepSeq class, like this:
 ```java
@@ -513,7 +513,7 @@ Rep1.addSubSequence(Rep2);
 #### SwiftMsgValidator object
 SwiftMsgValidator has just one method encapsulating the entire functionality needed to validate and build a SWIFT MT message.
 ##### Validating Objects - validateMsg method
-This method takes as input a SwiftMessage object that has been manually constructed by a developer [(as here)](src/main/java/com/paymentcomponents/swift/mt/BuildMT101_1.java), performs SWIFT validations and returns a list of error messages (if the message it correct, then an empty list is returned; null is never returned). The `validateMsg` will also return a SwiftMessage object that might be sligthly different from the given one. For example the SK reorder the tags if they are in a wrong position in the message, so it's recommented to use the returned message object after the validation.  
+This method takes as input a SwiftMessage object that has been manually constructed by a developer [(as here)](src/main/java/com/paymentcomponents/mt/demo/demo/BuildMT101_1.java), performs SWIFT validations and returns a list of error messages (if the message it correct, then an empty list is returned; null is never returned). The `validateMsg` will also return a SwiftMessage object that might be sligthly different from the given one. For example the SK reorder the tags if they are in a wrong position in the message, so it's recommented to use the returned message object after the validation.  
 
 #### Splitting Oversized Messages
 Since version 14.1.0, SwiftMsgValidator is able to split oversized messages if they belong in one of the supported categories (MT700, MT710, MT720). The validator will handle splitting automatically depending on the category of the input message.
@@ -533,7 +533,7 @@ Since version 14.1.0, the ValidationError objects have a new method, getMessageI
 
 #### XMLWriter object
 It is used to serialize the SwiftMessage object to a generic XML document. It does it with the use of buildXML method. It also uses Java Document Object Model (JDOM) that is delivered with the deployment jar. These open source classes can also be downloaded from www.jdom.org.
-Note: This article talks about gr.datamation.swift.swift2xml.XMLWriter. Avoid confusing with javax.sql.rowset.spi.XmlWriter.
+Note: This article talks about gr.datamation.mt.swift2xml.XMLWriter. Avoid confusing with javax.sql.rowset.spi.XmlWriter.
 
 ##### buildXML method
 It is a method within XMLWriter object, and is the only one used to build a generic XML document. It has three inputs:
@@ -543,7 +543,7 @@ It is a method within XMLWriter object, and is the only one used to build a gene
 
 The method first validates the file name for syntax errors, to ensure that the XML will have alphanumeric characters.
 Example
-Check [here](src/main/java/com/paymentcomponents/swift/mt/ConvertMT2XML.java) how to create XMLs from an MT
+Check [here](src/main/java/com/paymentcomponents/mt/demo/demo/ConvertMT2XML.java) how to create XMLs from an MT
 
 ##### Tag61.splitTag()
 Since Tag61 includes many pieces of information, library offers a parsing of the Tag's fields. You get a map with fields name and field value.  

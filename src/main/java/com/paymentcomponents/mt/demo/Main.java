@@ -1,4 +1,4 @@
-package com.paymentcomponents.swift.mt;
+package com.paymentcomponents.mt.demo;
 
 public class Main {
     public static void main(String[] args) {

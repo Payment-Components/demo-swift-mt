@@ -1,11 +1,11 @@
-package com.paymentcomponents.swift.mt;
+package com.paymentcomponents.mt.demo;
 
-import gr.datamation.swift.common.InvalidMessageFormatException;
-import gr.datamation.swift.common.SwiftMessage;
-import gr.datamation.swift.processor.SwiftMsgProcessor;
-import gr.datamation.swift.swift2xml.XMLWriter;
-import gr.datamation.swift.validator.SwiftMsgValidator;
-import gr.datamation.swift.validator.SwiftValidObj;
+import gr.datamation.mt.common.InvalidMessageFormatException;
+import gr.datamation.mt.common.SwiftMessage;
+import gr.datamation.mt.processor.SwiftMsgProcessor;
+import gr.datamation.mt.swift2xml.XMLWriter;
+import gr.datamation.mt.validator.SwiftMsgValidator;
+import gr.datamation.mt.validator.SwiftValidObj;
 
 import java.io.PrintWriter;
 

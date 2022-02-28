@@ -1,6 +1,6 @@
-package com.paymentcomponents.swift.mt;
+package com.paymentcomponents.mt.demo;
 
-import gr.datamation.swift.validator.SwiftValidObj;
+import gr.datamation.mt.validator.SwiftValidObj;
 
 public class Utils {
     public static void printErrors(SwiftValidObj swiftValidObj) {

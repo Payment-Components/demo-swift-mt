@@ -1,11 +1,11 @@
-package com.paymentcomponents.swift.mt;
+package com.paymentcomponents.mt.demo;
 
-import gr.datamation.swift.common.RepSeq;
-import gr.datamation.swift.common.SwiftMessage;
-import gr.datamation.swift.common.Tag;
-import gr.datamation.swift.processor.SwiftMsgProcessor;
-import gr.datamation.swift.validator.SwiftMsgValidator;
-import gr.datamation.swift.validator.SwiftValidObj;
+import gr.datamation.mt.common.RepSeq;
+import gr.datamation.mt.common.SwiftMessage;
+import gr.datamation.mt.common.Tag;
+import gr.datamation.mt.processor.SwiftMsgProcessor;
+import gr.datamation.mt.validator.SwiftMsgValidator;
+import gr.datamation.mt.validator.SwiftValidObj;
 
 import java.util.Vector;
 
