@@ -12,7 +12,7 @@ It's a simple maven project, you can download it and run it, with Java 1.8 or ab
 ## API Specification
 
 ### Installation
-Incorporate the SDK [jar](https://nexus.paymentcomponents.com/repository/public/gr/datamation/smv/21.31.0/smv-21.31.0-demo.jar) 
+Incorporate the SDK [jar](https://nexus.paymentcomponents.com/repository/public/gr/datamation/smv/24.2.0/smv-24.2.0-demo.jar) 
 into your project by the regular IDE means. This process will vary depending upon your specific IDE and you should consult your documentation on how to deploy a bean. For example in Eclipse all that needs to be done is to import the jar files into a project.
 Alternatively, you can import it as a Maven or Gradle dependency
 
@@ -30,7 +30,7 @@ Import the SDK
 <dependency>
   <groupId>gr.datamation</groupId>
   <artifactId>smv</artifactId>
-  <version>21.31.0</version>
+  <version>24.2.0</version>
   <classifier>demo</classifier>
 </dependency>
 ```
@@ -47,7 +47,7 @@ repositories {
 
 Import the SDK
 ```groovy
-implementation 'gr.datamation:smv:21.31.0:demo@jar'
+implementation 'gr.datamation:smv:24.2.0:demo@jar'
 ```
 In case you purchase the SDK you will be given a protected Maven repository with a user name and a password. You can configure your project to download the SDK from there.
 
