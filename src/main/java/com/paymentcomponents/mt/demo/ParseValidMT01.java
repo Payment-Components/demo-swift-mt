@@ -30,7 +30,7 @@ public class ParseValidMT01 {
                     "-}{5:{MAC:00000000}{CHK:19DA346889CC}{TNG:}}{S:{SAC:}{COP:P}}";
 
     public static void execute() {
-        //You can instatiate the SwiftMsgProcessor with the EOL of your choice.
+        //You can instantiate the SwiftMsgProcessor with the EOL of your choice.
         //\n for linux based systems or \r\b for Windows
         //If the default constructor is used then the \n will be used by default
         SwiftMsgProcessor parser = new SwiftMsgProcessor("\n");
